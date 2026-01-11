@@ -1,0 +1,19 @@
+# Core Framework
+fastapi==0.104.1
+sqlmodel==0.0.14
+pydantic==2.5.0
+argon2-cffi 
+uuid
+psycopg2-binary==2.9.9  # For PostgreSQL
+jwt
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+cryptography==41.0.7
+
+
+uvicorn[standard]==0.24.0
+
+# Environment & Config
+python-dotenv==1.0.0
+typing
