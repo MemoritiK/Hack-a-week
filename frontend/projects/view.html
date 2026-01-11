@@ -240,26 +240,6 @@
             font-size: 0.9rem;
         }
         
-        .table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        
-        .table th {
-            text-align: left;
-            padding: 0.75rem;
-            border-bottom: 1px solid #e5e7eb;
-            color: #6b7280;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-        
-        .table td {
-            padding: 0.75rem;
-            border-bottom: 1px solid #e5e7eb;
-            color: #374151;
-        }
-        
         .actions {
             display: flex;
             gap: 1rem;
@@ -305,7 +285,66 @@
             color: #6b7280;
         }
         
+        /* Enhanced Table Styles */
+        .table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .table thead {
+            background: #f8fafc;
+        }
+
+        .table th {
+            background-color: #ffffff;
+            padding: 1rem;
+            text-align: left;
+            color: #4b5563;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        
+        .table td {
+            background-color: #ffffff;
+            padding: 1rem;
+            border-bottom: 1px solid #f1f5f9;
+            color: #374151;
+        }
+        
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+        
+        /* Specific column styling */
+        .table td:nth-child(2) {
+            font-weight: 600;
+            color: #059669;
+        }
+        
+        .table td:nth-child(3) {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+    
+        
         @media (max-width: 768px) {
+            .table-container {
+                overflow-x: auto;
+                margin: 0 -1rem;
+                padding: 0 1rem;
+            }
+            
+            .table {
+                min-width: 500px;
+            }
+            
             .container {
                 padding: 1rem;
             }
@@ -692,28 +731,35 @@
             
             // Display expenses in a table
             let html = `
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                                <th>URL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
             `;
             
             expenses.forEach(expense => {
                 html += `
                     <tr>
-                        <td>${expense.description || 'No description'}</td>
-                        <td style="font-weight: 500;">${shared.formatCurrency(expense.amount)}</td>
+                        <td style="font-weight: 500;">${expense.description || 'No description'}</td>
+                        <td>${shared.formatCurrency(expense.amount)}</td>
                         <td>${shared.formatDate(expense.spent_on)}</td>
+                        <td>${`<a href="${expense.bill_url}" target="_blank" style="color: #2563eb; text-decoration: none;">View Bill</a>`}</td>
                     </tr>
                 `;
             });
             
-            html += '</tbody></table>';
+            html += `
+                    </tbody>
+                </table>
+            </div>
+            `;
             container.innerHTML = html;
         }
         
@@ -729,7 +775,15 @@
                     </button>
                 `;
             }
-            
+            admin = shared.isAdmin()
+            if (admin) {
+                    html += `
+                        <button onclick="window.location.href='/admin/edit-project.html?id=${currentProject.id}'" 
+                                class="btn" style="background: #f3f4f6; border-color: #d1d5db;">
+                            Edit Project
+                        </button>
+                    `;
+                }
             userActions.innerHTML = html;
         }
         

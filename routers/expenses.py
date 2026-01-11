@@ -24,10 +24,11 @@ def create_expenditure(
 
     if project.contractor != user_phone:
         raise HTTPException(status_code=403, detail="Unauthorized")
-    if expenditure.bill_url is None:
-        raise HTTPException(status_code=404, detail="URL not found")
+    
     db_expenditure = Expenditure.model_validate(expenditure)
     session.add(db_expenditure)
+    project.budget_utilized += db_expenditure.amount
+    session.add(project)
     session.commit()
     session.refresh(db_expenditure)
     return db_expenditure

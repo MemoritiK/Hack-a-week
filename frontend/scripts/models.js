@@ -251,20 +251,17 @@ class ProjectUpdate {
   /**
    * @param {Object} data
    * @param {string} data.contractor - phone number
-   * @param {number} [data.budget_utilized]
    * @param {string} [data.status]
    * @param {string} [data.deadline] - ISO date string
    * @param {number} [data.fundraised]
    */
-  constructor(data) {
-    this.contractor = data.contractor;
-    this.budget_utilized = data.budget_utilized || null;
-    this.status = data.status || null;
-    this.deadline = data.deadline
-      ? new Date(data.deadline).toISOString().split("T")[0]
-      : null;
-    this.fundraised = data.fundraised || null;
-  }
+   constructor(data) {
+       // Only include properties that are actually in 'data'
+       if ('contractor' in data) this.contractor = data.contractor;
+       if ('status' in data) this.status = data.status;
+       if ('deadline' in data) this.deadline = data.deadline;
+       if ('fundraised' in data) this.fundraised = data.fundraised;
+   }
 }
 
 // ==================== MILESTONE MODELS ====================
@@ -362,10 +359,10 @@ class ExpenditureBase {
    */
   constructor(data) {
     this.project_id = data.project_id;
-    this.description = data.description || null;
+    this.description = data.description;
     this.amount = data.amount;
     this.spent_on = new Date(data.spent_on).toISOString().split("T")[0];
-    this.bill_url = data.bill_url || null;
+    this.bill_url = data.bill_url;
   }
 }
 

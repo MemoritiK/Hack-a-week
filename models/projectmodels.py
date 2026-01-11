@@ -24,11 +24,10 @@ class Project(ProjectBase, table=True):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc)) 
     
 class ProjectUpdate(SQLModel):
-    contractor: str  # phone of contractor
-    budget_utilized: Optional[float]
-    status: Optional[str]
-    deadline: Optional[date]
-    fundraised: Optional[float]
+    contractor: Optional[str] = None  
+    status: Optional[str] = None       
+    deadline: Optional[date] = None   
+    fundraised: Optional[float] = None  
 
 class MilestoneBase(SQLModel):
     project_id: Optional[str] = Field(index=True, default = None)
@@ -48,12 +47,12 @@ class Milestone(MilestoneBase, table=True):
 
 class ExpenditureBase(SQLModel):
     project_id: str = Field(index=True)
-    description: Optional[str] = None
+    description: str
 
     amount: float = Field(ge=0)
     spent_on: date
 
-    bill_url: Optional[str] = None
+    bill_url: str
 
 class Expenditure(ExpenditureBase, table=True):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()), primary_key=True)

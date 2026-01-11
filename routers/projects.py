@@ -66,8 +66,10 @@ def update_project(project_id: str, project_data: ProjectUpdate, session: Sessio
             raise HTTPException(status_code=404, detail="Contarctor not verified")
     if project.type == "Community-funded":
        if project_data.fundraised is not None:
-          project.total_budget = project_data.fundraised     
+          project.total_budget = project_data.fundraised   
+
     dict = project_data.model_dump(exclude_unset=True)
+    print(project,dict)  
     project.sqlmodel_update(dict)
     session.add(project)
     session.commit()
