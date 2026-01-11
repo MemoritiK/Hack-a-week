@@ -36,6 +36,7 @@ To provide transparency and accountability in public fund utilization by creatin
     <td><img width="888" height="880" alt="Expense Tracking" src="https://github.com/user-attachments/assets/6ae82364-dc1a-4a18-b85d-307cc189bf06" /></td>
   </tr>
 </table>
+
 ## Core Features
 
 ### Project Management
